@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      xmlns="http://www.w3.org/1999/html">
 <div class="container">
   <div class="contentbar" id="main-container">
     <div class="row">
@@ -8,6 +9,32 @@
             <h5 class="card-title">TeamStat application</h5>
           </div>
           <div class="cart-body">
+            <div class="w-100">
+              <div class="order-note text-center">
+                <h5>Manage issues with jira</h5>
+              </div>
+              <div class="jira-nav ml-3">
+                <form (submit)="loginModal()">
+                  <button class="btn-primary m-2 w-100" type="submit"> Link your jira account</button>
+                </form>
+                <form (submit)="viewIssuesModal()">
+                  <button class="btn-primary m-2 w-100" type="submit"> View project issues
+                  </button>
+                </form>
+                <form (submit)="createIssuesModal()">
+                  <button class="btn-primary m-2 w-100" type="submit"> Create an issue</button>
+                </form>
+                <a href="http://localhost:8080/projects/TEAM/issues/TEAM-2?filter=allopenissues">View project in jira</a>
+              </div>
+              <div class="form-group text-center">
+                <h5>Jira info</h5>
+                <textarea style="width: 90%"
+                          disabled class="form-control ml-5" name="specialNotes" rows="5">{{jiraString}}</textarea>
+
+              </div>
+            </div>
+          </div>
+          <div class="cart-body mt-5">
             <div class="row">
               <div class="w-100">
                 <div class="order-note">
@@ -60,7 +87,8 @@
                             </div>
                           </td>
                           <td>
-                            <button class="btn-primary" type="submit" data-toggle="modal" (click)="onOpenModal(team.id)">
+                            <button class="btn-primary" type="submit" data-toggle="modal"
+                                    (click)="onOpenModal(team.id)">
                               Submit
                             </button>
                           </td>
@@ -174,3 +202,80 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="jiraLogin" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login to jira account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #jiraLogin="ngForm" (submit)="onJiraLogin(jiraLogin)">
+        <div class="modal-body">
+          <label>Jira username</label>
+          <input ngModel name="username" class="w-100 mb-3" type="text"/>
+          <label>Password</label>
+          <input ngModel name="password" class="w-100 mb-3" type="password"/>
+        </div>
+        <div class="modal-footer">
+          <button id="closeJiraLogin" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade h-100 w-100" id="createIssue" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create issue</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #createIssue="ngForm" (submit)="onCreateIssue(createIssue)">
+        <h5 class="ml-5">Issue data</h5>
+        <textarea ngModel name="issue"  class="form-control ml-5 w-75" rows="35"></textarea>
+        <div class="modal-footer">
+          <button id="closeCreateIssue" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="browseIssues" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Issues for project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #browseIssues="ngForm" (submit)="onBrowseIssues(browseIssues)">
+        <div class="issue m-4" *ngFor="let issue of issues">
+          <p>Summary : {{issue.summary}}</p>
+          <p>Type: {{issue.type}}</p>
+          <p>Description: {{issue.description}}</p>
+          <p>Priority: {{issue.priority}}</p>
+          <p class="mb-4">Resolution: {{issue.resolution}}</p>
+        </div>
+        <div class="modal-footer">
+          <button id="closeBrowseIssues" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+

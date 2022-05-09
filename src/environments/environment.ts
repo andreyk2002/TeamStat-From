@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/teamStat'
+  apiBaseUrl: 'http://localhost:13001/teamStat'
 };
 
 /*
